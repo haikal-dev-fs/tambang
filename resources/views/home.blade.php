@@ -7,6 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>Halaman Home</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,8 +44,9 @@
                                 <a href="#"
                                     class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
                                     aria-current="page">Dashboard</a>
-                                <a href="blog.blade.php"
-                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Peta Tematik</a>
+                                <a href="#"
+                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Peta
+                                    Tematik</a>
                                 <a href="#"
                                     class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">About</a>
                             </div>
@@ -122,13 +133,10 @@
                     <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
                         aria-current="page">Dashboard</a>
                     <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
+                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Peta Tematik</a>
                     <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-                    <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
-                    <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Reports</a>
+                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">About</a>
+
                 </div>
                 <div class="border-t border-gray-700 pb-3 pt-4">
                     <div class="flex items-center px-5">
@@ -174,6 +182,28 @@
         <main>
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <!-- Your content -->
+                <section class="text-center py-20 from-blue-50 to-white">
+                    <h2 class="text-4xl font-bold mb-4">Selamat Datang di Website Tambang</h2>
+                    <p class="text-gray-600 mb-6">Solusi terbaik untuk kebutuhan Tambang Anda.</p>
+                    <a href="#kontak"
+                        class="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">Hubungi
+                        Kami</a>
+                </section>
+
+                <div id="map"></div>
+
+                <script>
+                    var map = L.map('map').setView([-6.3505808,106.957789], 17);
+
+                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }).addTo(map);
+
+                    var marker = L.marker([-6.3505808,106.957789]).addTo(map);
+                </script>
+
+
             </div>
         </main>
     </div>
