@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Halaman Blog</title>
-</head>
-<body>
-    <h1>Halaman Blog</h1>
-</body>
-</html>
+<x-layout>
+
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map').setView([-8.3513778, 115.0528291, 9], 9);
+
+        var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    </script>
+</x-layout>
