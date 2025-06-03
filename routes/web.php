@@ -27,7 +27,7 @@ Route::post('/tambang/store', [TambangController::class, 'store'])->name('tamban
 
 // Update Edit Hapus Data Tambang
 Route::get('/tambang/edit/{kode_tambang}', [TambangController::class, 'edit'])->name('tambang.edit');
-Route::post('/tambang/update/{kode_tambang}', [TambangController::class, 'update'])->name('tambang.update');
+Route::put('/tambang/update/{kode_tambang}', [TambangController::class, 'update'])->name('tambang.update');
 Route::delete('/tambang/delete/{kode_tambang}', [TambangController::class, 'destroy'])->name('tambang.destroy');
 
 

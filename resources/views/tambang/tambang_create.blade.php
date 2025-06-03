@@ -45,7 +45,7 @@
 
             <div class="mb-4">
                 <label for="images" class="block font-medium">Foto Tambang</label>
-                <input type="file" name="images" class="w-full">
+                <input type="file" name="images[]" multiple required class="w-full">
                 @error('images')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror

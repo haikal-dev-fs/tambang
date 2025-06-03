@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tambangs', function (Blueprint $table) {
-            $table->timestamps(); // ← menambahkan kolom created_at dan updated_at
+        Schema::create('tambang_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tambang_id')->constrained('tambangs')->onDelete('cascade');
+            $table->string('image_path');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tambangs', function (Blueprint $table) {
-            $table->dropTimestamps(); // ← menghapus kolom created_at dan updated_at
-        });
+        Schema::dropIfExists('tambang_images');
     }
 };
