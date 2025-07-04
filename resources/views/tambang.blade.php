@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="max-w-8xl mx-auto px-4 py-6">
         @if (session('success'))
             <div class="mb-6 p-4 bg-green-100 text-green-800 border border-green-300 rounded-md shadow-sm">
                 {{ session('success') }}
@@ -40,30 +40,35 @@
                                 <div class="flex space-x-2">
                                     <a href="/detail/{{ $tambang->kode_tambang }}"
                                         class="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm">View</a>
-                                    <a href="{{ route('tambang.edit', $tambang->kode_tambang) }}"
-                                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm">Edit</a>
-                                    <form action="{{ route('tambang.destroy', $tambang->id) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                                        @if(auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin')
+                                        <a href="{{ route('tambang.edit', $tambang->kode_tambang) }}"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm">Edit</a>
+                                        <form action="{{ route('tambang.destroy', $tambang->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-xs font-medium shadow-sm">
+                                                Delete
+                                            </button>
+                                        </form>
+                                        @endif
+                                    </div>
+                                </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
 
-        <div class="mt-6">
-            <a href="/tambang_create"
-                class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2 rounded-md shadow-sm text-sm">
-                + Tambah Data
-            </a>
-        </div>
+        {{-- Tombol Tambah Data hanya untuk admin/superadmin --}}
+        @if(auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin')
+            <div class="mt-6">
+                <a href="/tambang_create"
+                    class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2 rounded-md shadow-sm text-sm">
+                    + Tambah Data
+                </a>
+            </div>
+        @endif
     </div>
 </x-layout>

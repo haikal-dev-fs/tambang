@@ -18,8 +18,10 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach ($tambang->image_path as $image)
                             <div class="w-full h-full overflow-hidden rounded-lg shadow-md">
-                                <img src="{{ $image }}" alt="Gambar Tambang"
-                                     class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+                                <a href="{{ $image }}" data-lightbox="tambang-images">
+                                    <img src="{{ $image }}" alt="Gambar Tambang"
+                                        class="cursor-zoom-in w-full h-full object-cover rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -33,7 +35,8 @@
 
         {{-- Tombol kembali --}}
         <div class="mt-8">
-            <a href="/tambang" class="inline-block bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition">
+            <a href="/tambang"
+                class="inline-block bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition">
                 ← Kembali
             </a>
         </div>
