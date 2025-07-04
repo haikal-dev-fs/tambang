@@ -1,5 +1,5 @@
         <nav class="bg-gray-800" x-data="{ isOpen: false }">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
                         <div class="shrink-0">
@@ -12,6 +12,12 @@
                                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                                 <x-nav-link href="/" :active="request()->is('/')">Dashboard</x-nav-link>
                                 <x-nav-link href="/tambang" :active="request()->is('tambang')">Lokasi Tambang</x-nav-link>
+                                @auth
+                                    @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin']))
+                                        <x-nav-link href="/users" :active="request()->is('users')">Users</x-nav-link>
+                                    @endif
+                                @endauth
+
                                 <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
                             </div>
                         </div>
@@ -57,8 +63,12 @@
                                         tabindex="-1" id="user-menu-item-0">Your Profile</a>
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
                                         tabindex="-1" id="user-menu-item-1">Settings</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
-                                        tabindex="-1" id="user-menu-item-2">Sign out</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+                                            Sign out
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -94,6 +104,12 @@
                     <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                     <x-nav-link href="/" :active="request()->is('/')">Dashboard</x-nav-link>
                     <x-nav-link href="/tambang" :active="request()->is('tambang')">Lokasi Tambang</x-nav-link>
+                    @auth
+                        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin']))
+                            <x-nav-link href="/users" :active="request()->is('users')">Users</x-nav-link>
+                        @endif
+                    @endauth
+
                     <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
                 </div>
                 <div class="border-t border-gray-700 pb-3 pt-4">
@@ -104,8 +120,8 @@
                                 alt="">
                         </div>
                         <div class="ml-3">
-                            <div class="text-base/5 font-medium text-white">Reza Pratama</div>
-                            <div class="text-sm font-medium text-gray-400">reza@gmail.com</div>
+                            <div class="text-base/5 font-medium text-white">{{ auth()->user()->name }}</div>
+                            <div class="text-sm font-medium text-gray-400">{{ auth()->user()->email }}</div>
                         </div>
                         <button type="button"
                             class="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -124,9 +140,12 @@
                             Profile</a>
                         <a href="#"
                             class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
-                        <a href="#"
-                            class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign
-                            out</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+                                Sign out
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

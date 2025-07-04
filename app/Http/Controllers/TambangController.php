@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 use App\Models\TambangImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Container\Attributes\Storage;
+// use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class TambangController extends Controller
 {
@@ -87,11 +88,11 @@ class TambangController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $filename = Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('tambang', $filename, 'public');
+                $image->storeAs('images', $filename, 'public');
 
                 TambangImage::create([
                     'tambang_id' => $tambang->id,
-                    'image_path' => 'tambang/' . $filename,
+                    'image_path' => 'images/' . $filename,
                 ]);
             }
         }
@@ -137,6 +138,18 @@ class TambangController extends Controller
             }
         }
 
+        // Hapus gambar yang ditandai
+        if ($request->has('hapus_gambar')) {
+            foreach ($request->hapus_gambar as $id) {
+                $gambar = TambangImage::find($id);
+                if ($gambar) {
+                    Storage::delete('public/' . $gambar->image_path); // file di storage
+                    $gambar->delete(); // record di database
+                }
+            }
+        }
+
+
 
         return redirect()->route('tambang.index')->with('success', 'Data Berhasil diperbarui');
     }
@@ -145,5 +158,23 @@ class TambangController extends Controller
     {
         Tambang::destroy($kode_tambang);
         return redirect()->route('tambang.index')->with('success', 'Data Berhasil dihapus');
+    }
+
+    public function home()
+    {
+        $tambangs = Tambang::with('gambarTambang')->get();
+
+        foreach ($tambangs as $tambang) {
+            $images = TambangImage::where('tambang_id', $tambang->id)->get();
+
+            $tambang->image_path = $images->isNotEmpty()
+                ? $images->map(fn($image) => asset('storage/' . $image->image_path))->toArray()
+                : null;
+        }
+
+        return view('home', [
+            'title' => 'Dashboard',
+            'tambangs' => $tambangs
+        ]);
     }
 }
